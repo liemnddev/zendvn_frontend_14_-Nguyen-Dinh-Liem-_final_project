@@ -14,11 +14,11 @@ $(document).ready(function () {
     let id = $(this).data('id');
 
     console.log(imgsrc,id);
-    if (imgsrc == "./assets/img/heart_empty.jpg") {
-      $(this).attr("src", "./assets/img/heart_full.jpg");
+    if (imgsrc == "./assets/img/heart_empty.png") {
+      $(this).attr("src", "./assets/img/heart_full.png");
       arrListLike.push(id);     
     } else {
-      $(this).attr("src", "./assets/img/heart_empty.jpg");
+      $(this).attr("src", "./assets/img/heart_empty.png");
       arrListLike = arrListLike.filter(item => item != id);
     }
     localStorage.setItem('listLike',JSON.stringify(arrListLike));
@@ -71,7 +71,11 @@ $(document).ready(function () {
             <ul class="dropdown-menu">
                 ${contentMenuOther}
             </ul>
-        </li>`;
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="favorites_list.html"><img src="./assets/img/playlist.png" alt="Danh sach yeu thich"title="Danh Sách Yêu Thích"></a>
+        </li>
+        `;
         mainMenu.html(result);
       },
     });
@@ -140,7 +144,7 @@ $(document).ready(function () {
     });
     //console.log(comments);
 
-    let heart = arrListLike.includes(item.id) ? './assets/img/heart_full.jpg' : './assets/img/heart_empty.jpg';
+    let heart = arrListLike.includes(item.id) ? './assets/img/heart_full.png' : './assets/img/heart_empty.png';
 
     return /*html*/ `
             <div class="card shadow-lg">

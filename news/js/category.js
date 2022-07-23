@@ -59,7 +59,11 @@ $(document).ready(function () {
                   <ul class="dropdown-menu">
                       ${contentMenuOther}
                   </ul>
-              </li>`;
+              </li>
+              <li class="nav-item">
+                  <a class="nav-link" href="favorites_list.html"><img src="./assets/img/playlist.png" alt="Danh sach yeu thich"title="Danh Sách Yêu Thích"></a>
+              </li>
+              `;
 
         mainMenu.html(result);
       },

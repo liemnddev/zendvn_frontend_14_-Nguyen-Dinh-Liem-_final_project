@@ -1,4 +1,5 @@
 $(document).ready(function () {
+  let mainMenu = $(".main_menu");
   let title = $("#post_title");
   let date = $(".post-date");
   let decriptsion = $("#post_decriptsion");
@@ -18,18 +19,18 @@ $(document).ready(function () {
     let id = $(this).data('id');
 
     console.log(imgsrc,id);
-    if (imgsrc == "./assets/img/heart_empty.jpg") {
-      $(this).attr("src", "./assets/img/heart_full.jpg");
+    if (imgsrc == "./assets/img/heart_empty.png") {
+      $(this).attr("src", "./assets/img/heart_full.png");
       arrListLike.push(id);     
     } else {
-      $(this).attr("src", "./assets/img/heart_empty.jpg");
+      $(this).attr("src", "./assets/img/heart_empty.png");
       arrListLike = arrListLike.filter(item => item != id);
     }
     localStorage.setItem('listLike',JSON.stringify(arrListLike));
   });
 
 
-
+  renderMenu();
 
   let allComments = JSON.parse(localStorage.getItem("comment")) || [];
   let comments = allComments.filter(function (element) {
@@ -104,7 +105,58 @@ function renderCommentsItem(item) {
           </li> 
           `;
   }
+// =================RENDER MENU================
+function renderMenu() {
+  $.ajax({
+    type: "GET",
+    url: "http://apiforlearning.zendvn.com/api/categories_news",
+    data: {
+      offset: 0,
+      limit: 20,
+    },
+    dataType: "json",
+    success: function (data) {
+      let content = "";
+      let contentMenuOther = "";
+      for (let i = 0; i < data.length; i++) {
+        let name = data[i].name;
+        let link = data[i].link;
+        let linkCategory = "category.html?id=" + data[i].id;
+        // if (i == data[i].id) {
+        //   titleLarge.html(`<h1 class="display-1 mb-3">${name}</h1>`);
+        // }
+        if (i < 5) {
+          content += `
+                <li class="nav-item">
+                    <a class="nav-link" href="${linkCategory}">${name}</a>
+                </li>
+                    `;
+        } else {
+          contentMenuOther += `
+                <li class="nav-item"><a class="dropdown-item" href="${linkCategory}">${name}</a></li>
+                `;
+        }
+      }
 
+      let result =
+        content +
+        `
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">Danh mục
+                    khác</a>
+                <ul class="dropdown-menu">
+                    ${contentMenuOther}
+                </ul>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="favorites_list.html"><img src="./assets/img/playlist.png" alt="Danh sach yeu thich"title="Danh Sách Yêu Thích"></a>
+            </li>
+            `;
+
+      mainMenu.html(result);
+    },
+  });
+}
   $.ajax({
     type: "GET",
     url: "http://apiforlearning.zendvn.com/api/articles/" + id,
